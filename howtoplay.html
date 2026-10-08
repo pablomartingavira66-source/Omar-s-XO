@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tactical Guide - Ultimate XO</title>
+<meta name="theme-color" content="#05060a">
+<meta name="description" content="How to play Ultimate XO: the rules, every game mode, the league and tips from the pros.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--bg:#05060a;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.1);--pink:#ff2f6d;--cyan:#12c8d9;--violet:#bc13fe;--gold:#ffcc00;--green:#1fd077;--ink:#ecebf7;--mute:rgba(236,235,247,.62)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Tahoma,sans-serif;line-height:1.65;overflow-x:hidden;
+  background-image:radial-gradient(circle at 8% 4%,rgba(188,19,254,.14),transparent 38%),radial-gradient(circle at 96% 30%,rgba(18,200,217,.09),transparent 40%),radial-gradient(circle at 20% 92%,rgba(255,47,109,.09),transparent 42%);background-attachment:fixed}
+body.lock{overflow:hidden}
+[dir=rtl] body,body[dir=rtl]{font-family:'Segoe UI',Tahoma,'Noto Sans Arabic',system-ui,sans-serif}
+a{color:inherit}
+b{color:#fff}
+h1,h2,h3{margin:0;line-height:1.2}
+
+/* ---------- entrance ---------- */
+#boot{position:fixed;inset:0;z-index:5000;pointer-events:all;cursor:pointer}
+#boot .half{position:absolute;left:0;right:0;height:50.2%;background:#05060a;overflow:hidden;transition:transform .85s cubic-bezier(.75,0,.2,1)}
+#boot .top{top:0}#boot .bot{bottom:0}
+#boot.open .top{transform:translateY(-101%)}#boot.open .bot{transform:translateY(101%)}
+#boot .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .35s}
+#boot.open .mid{opacity:0}
+#boot svg{width:min(44vw,180px);overflow:visible;filter:drop-shadow(0 0 12px rgba(188,19,254,.6))}
+#boot .g{stroke:#bc13fe;stroke-width:5;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120;animation:dr .5s ease-out forwards}
+#boot .g:nth-child(2){animation-delay:.08s}#boot .g:nth-child(3){animation-delay:.16s}#boot .g:nth-child(4){animation-delay:.24s}
+#boot .x{stroke:var(--pink);stroke-width:8;stroke-linecap:round;stroke-dasharray:50;stroke-dashoffset:50;animation:dr .3s .55s forwards}
+#boot .x+.x{animation-delay:.72s}
+#boot .o{stroke:var(--cyan);stroke-width:8;fill:none;stroke-dasharray:90;stroke-dashoffset:90;animation:dr .45s .9s forwards;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box}
+@keyframes dr{to{stroke-dashoffset:0}}
+#boot .scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.7;animation:scan 1.8s ease-in-out infinite}
+@keyframes scan{0%{top:12%}50%{top:86%}100%{top:12%}}
+#boot .t{font:800 .78rem 'Segoe UI',sans-serif;letter-spacing:6px;color:#fff;opacity:.85;text-transform:uppercase;min-height:1.2em;text-align:center;padding-inline-start:6px}
+#boot .t::after{content:'_';animation:blink .6s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#boot .bar{width:min(60vw,240px);height:3px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
+#boot .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--cyan));animation:fill 1.9s cubic-bezier(.3,.6,.3,1) forwards}
+@keyframes fill{to{width:100%}}
+#boot .sk{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));font:700 .62rem 'Segoe UI',sans-serif;letter-spacing:4px;opacity:.4}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+/* ---------- top bar ---------- */
+.top{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(180deg,rgba(5,6,10,.94),rgba(5,6,10,.72));-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .back,.top .lang{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:#fff;font:800 .85rem 'Segoe UI',sans-serif;cursor:pointer;display:grid;place-items:center;text-decoration:none;transition:.25s}
+.top .back:hover,.top .lang:hover{border-color:var(--cyan);background:rgba(18,200,217,.14)}
+[dir=rtl] .top .back svg{transform:scaleX(-1)}
+.nav{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;padding:7px 14px;border-radius:50px;border:1px solid var(--line);background:var(--card);font-size:.78rem;font-weight:700;letter-spacing:.3px;text-decoration:none;color:var(--mute);transition:.25s;white-space:nowrap}
+.nav a.on,.nav a:hover{color:#fff;border-color:var(--violet);background:rgba(188,19,254,.2)}
+
+/* ---------- layout ---------- */
+main{max-width:980px;margin:0 auto;padding:0 18px 70px}
+.hero{text-align:center;padding:calc(96px + env(safe-area-inset-top)) 0 34px}
+.eyebrow{font-size:.7rem;font-weight:800;letter-spacing:5px;color:var(--cyan);text-transform:uppercase}
+[dir=rtl] .eyebrow{letter-spacing:1px}
+.hero h1{margin:12px 0 10px;font:900 clamp(2.2rem,8vw,3.8rem)/1.05 'Arial Black','Segoe UI',sans-serif;text-transform:uppercase;letter-spacing:2px;background:linear-gradient(120deg,#fff 20%,#d9a8ff 60%,#7ee6f0);-webkit-background-clip:text;background-clip:text;color:transparent}
+[dir=rtl] .hero h1{letter-spacing:0;text-transform:none}
+.hero p.lead{max-width:600px;margin:0 auto 22px;color:var(--mute);font-size:1.02rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
+.chip{padding:6px 14px;border-radius:50px;border:1px solid var(--line);background:var(--card);font-size:.78rem;font-weight:700}
+.chip b{color:var(--cyan)}
+.demo-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.sec{padding:54px 0 6px}
+.sec-h{margin-bottom:22px}
+.sec-h h2{font:900 clamp(1.5rem,5vw,2.1rem)/1.15 'Segoe UI',sans-serif;margin-top:6px}
+.sec-h p{margin:8px 0 0;color:var(--mute);max-width:640px}
+.card{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:20px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* ---------- boards ---------- */
+.ub{--fs:5.6cqw;container-type:inline-size;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(100%,var(--w,420px));aspect-ratio:1;margin:0 auto}
+.mb{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:2.5px;padding:4px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);transition:box-shadow .35s,border-color .35s,background .35s}
+.mb.target{border-color:var(--cyan);background:rgba(18,200,217,.1);box-shadow:0 0 0 1px var(--cyan),0 0 22px rgba(18,200,217,.45)}
+.mb.free{border-color:rgba(255,204,0,.6);background:rgba(255,204,0,.06);box-shadow:0 0 14px rgba(255,204,0,.2)}
+.mb.closed .c{opacity:.12}
+.mb .big{position:absolute;inset:0;display:grid;place-items:center;font:900 calc(var(--fs)*4.6)/1 'Arial Black',sans-serif;pointer-events:none;animation:pop .45s cubic-bezier(.2,1.6,.4,1) both}
+.mb .big.X{color:var(--pink);text-shadow:0 0 16px var(--pink)}.mb .big.O{color:var(--cyan);text-shadow:0 0 16px var(--cyan)}.mb .big.D{color:var(--mute);font-size:calc(var(--fs)*2.4)}
+@keyframes pop{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+.c{aspect-ratio:1;display:grid;place-items:center;border:0;padding:0;border-radius:4px;background:rgba(255,255,255,.055);color:#fff;font:900 var(--fs)/1 'Arial Black',sans-serif;cursor:default;transition:background .2s,transform .2s}
+.c.X{color:var(--pink);text-shadow:0 0 8px rgba(255,47,109,.7)}.c.O{color:var(--cyan);text-shadow:0 0 8px rgba(18,200,217,.7)}
+.c.last{box-shadow:0 0 0 2px #fff}
+.c.hot{background:rgba(255,47,109,.35);box-shadow:0 0 0 2px var(--pink);animation:hot 1s ease-in-out infinite}
+@keyframes hot{50%{background:rgba(255,47,109,.6)}}
+.c.play{cursor:pointer}.c.play:hover{background:rgba(255,255,255,.2);transform:scale(1.08)}
+.c:focus-visible{outline:2px solid #fff}
+.cap{min-height:3.4em;text-align:center;font-size:.92rem;color:var(--mute);max-width:520px}
+.cap b{color:#fff}
+.dots{display:flex;gap:7px;justify-content:center}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:.3s}
+.dots i.on{background:var(--cyan);box-shadow:0 0 10px var(--cyan);transform:scale(1.3)}
+
+/* ---------- steps ---------- */
+.step{position:relative;overflow:hidden}
+.step .n{position:absolute;top:12px;inset-inline-end:16px;font:900 2.6rem/1 'Arial Black',sans-serif;color:rgba(255,255,255,.06)}
+.step h3{font-size:1.08rem;margin:2px 0 8px}
+.step p{margin:0 0 14px;color:var(--mute);font-size:.93rem}
+.step .mini{--w:150px;--fs:6.4cqw}
+
+/* ---------- practice ---------- */
+.practice{display:grid;gap:18px;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:start}
+@media(max-width:760px){.practice{grid-template-columns:1fr}}
+.coach{display:flex;flex-direction:column;gap:12px}
+.status{padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.25);font-size:.95rem;min-height:84px}
+.status .who{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;font:900 .9rem 'Arial Black',sans-serif;margin-inline-end:8px;vertical-align:middle}
+.who.X{background:rgba(255,47,109,.2);color:var(--pink)}.who.O{background:rgba(18,200,217,.2);color:var(--cyan)}
+.tog{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--mute);cursor:pointer;user-select:none}
+.tog input{accent-color:var(--cyan);width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:50px;border:1px solid var(--line);background:var(--card);color:#fff;font:800 .85rem 'Segoe UI',sans-serif;letter-spacing:.4px;cursor:pointer;text-decoration:none;transition:.25s}
+.btn:hover{border-color:var(--cyan);background:rgba(18,200,217,.14)}
+.btn.main{border:0;background:linear-gradient(135deg,#7c3aed,#b04dff);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.btn.main:hover{filter:brightness(1.12)}
+.rules-mini{margin:0;padding-inline-start:20px;color:var(--mute);font-size:.88rem}
+.rules-mini li{margin:4px 0}
+
+/* ---------- modes ---------- */
+.mode{position:relative;display:flex;flex-direction:column;gap:10px;transition:transform .3s,border-color .3s}
+.mode:hover{transform:translateY(-4px);border-color:var(--mc,var(--violet))}
+.mode .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;background:color-mix(in srgb,var(--mc) 18%,transparent);border:1px solid color-mix(in srgb,var(--mc) 55%,transparent)}
+.mode h3{font-size:1.1rem}
+.mode h3 small{display:block;margin-top:2px;font-size:.72rem;letter-spacing:2px;font-weight:700;color:var(--mc);text-transform:uppercase}
+[dir=rtl] .mode h3 small{letter-spacing:.5px}
+.mode p{margin:0;color:var(--mute);font-size:.92rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.tag{padding:3px 10px;border-radius:50px;font-size:.68rem;font-weight:800;letter-spacing:.5px;background:rgba(255,255,255,.07);color:var(--mute)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:.92rem}
+.tbl td{padding:12px 14px;background:var(--card);vertical-align:top}
+.tbl td:first-child{border-radius:14px 0 0 14px;white-space:nowrap;font-weight:900;letter-spacing:1px}
+.tbl td:last-child{border-radius:0 14px 14px 0;color:var(--mute)}
+[dir=rtl] .tbl td:first-child{border-radius:0 14px 14px 0}[dir=rtl] .tbl td:last-child{border-radius:14px 0 0 14px}
+.pct{display:inline-block;margin-inline-start:8px;padding:2px 8px;border-radius:50px;font-size:.68rem;background:rgba(255,204,0,.15);color:var(--gold);letter-spacing:0}
+.note{margin-top:14px;padding:14px 16px;border-radius:14px;border:1px dashed rgba(255,204,0,.45);background:rgba(255,204,0,.05);font-size:.9rem;color:var(--mute)}
+
+/* ---------- league ---------- */
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:560px){.ladder{grid-template-columns:repeat(2,1fr)}}
+.div{position:relative;padding:12px 8px 10px;border-radius:14px;text-align:center;background:var(--card);border:1px solid color-mix(in srgb,var(--dc) 45%,transparent);transition:transform .3s,background .3s}
+.div:hover{transform:translateY(-3px);background:color-mix(in srgb,var(--dc) 14%,transparent)}
+.div .r{font:900 1.3rem/1 'Arial Black',sans-serif;color:var(--dc);text-shadow:0 0 14px color-mix(in srgb,var(--dc) 70%,transparent)}
+.div .nm{margin-top:5px;font-size:.8rem;font-weight:800}
+.div .ai{margin-top:2px;font-size:.66rem;letter-spacing:1px;color:var(--mute);text-transform:uppercase}
+.div .rq{margin-top:6px;font-size:.7rem;color:var(--dc);font-weight:700}
+.div.ranked::after{content:'';position:absolute;top:8px;inset-inline-end:8px;width:7px;height:7px;border-radius:50%;background:var(--dc);box-shadow:0 0 8px var(--dc)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:12px 2px 0;font-size:.78rem;color:var(--mute)}
+.legend span::before{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-end:6px;background:var(--mute)}
+.legend span.rk::before{background:#fff;box-shadow:0 0 8px #fff}
+.pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-top:6px}
+.pts div{padding:14px 8px;border-radius:14px;background:rgba(0,0,0,.25);text-align:center}
+.pts b{display:block;font:900 1.5rem/1.1 'Arial Black',sans-serif}
+.pts span{font-size:.72rem;color:var(--mute);letter-spacing:.5px}
+.pts .w b{color:var(--green)}.pts .d b{color:#9aa6c0}.pts .l b{color:var(--pink)}
+
+/* ---------- misc ---------- */
+.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.list li{position:relative;padding:14px 16px 14px 52px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--mute);font-size:.93rem}
+[dir=rtl] .list li{padding:14px 52px 14px 16px}
+.list li::before{content:attr(data-i);position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font:900 .8rem 'Segoe UI',sans-serif;background:rgba(188,19,254,.22);color:#e7c3ff}
+.list li b{color:#fff}
+details{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:0 18px;margin-bottom:10px;transition:border-color .25s}
+details[open]{border-color:rgba(188,19,254,.55)}
+summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;display:flex;justify-content:space-between;gap:12px;outline:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-size:1.3rem;line-height:1;color:var(--cyan);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 16px;color:var(--mute);font-size:.93rem}
+.cta{margin-top:50px;text-align:center;padding:34px 20px;border-radius:24px;border:1px solid rgba(188,19,254,.4);background:linear-gradient(135deg,rgba(124,58,237,.22),rgba(18,200,217,.1))}
+.cta h2{font-size:1.5rem;margin-bottom:8px}.cta p{margin:0 0 20px;color:var(--mute)}
+.cta .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{text-align:center;color:var(--mute);font-size:.72rem;letter-spacing:4px;padding:30px 0 40px;opacity:.55}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important}.rv{opacity:1;transform:none}#boot{display:none}}
+</style>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+  <div class="half top"></div><div class="half bot"></div>
+  <div class="mid">
+    <svg viewBox="0 0 120 120" fill="none"><path class="g" d="M42 6V114"/><path class="g" d="M78 6V114"/><path class="g" d="M6 42H114"/><path class="g" d="M6 78H114"/><path class="x" d="M12 12L34 34"/><path class="x" d="M34 12L12 34"/><circle class="o" cx="60" cy="60" r="12"/></svg>
+    <div class="t" id="bootText"></div>
+    <div class="bar"><i></i></div>
+  </div>
+  <div class="scan"></div>
+  <div class="sk">TAP TO SKIP</div>
+</div>
+
+<header class="top">
+  <a class="back" id="back" href="index.html" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+  <nav class="nav" id="nav">
+    <a href="#basics" data-ar="الأساسيات">Basics</a>
+    <a href="#practice" data-ar="جرّب بنفسك">Practice</a>
+    <a href="#modes" data-ar="الأوضاع">Modes</a>
+    <a href="#mystery" data-ar="الصناديق">Mystery</a>
+    <a href="#league" data-ar="الدوري">League</a>
+    <a href="#profile" data-ar="البروفايل">Profile</a>
+    <a href="#tips" data-ar="نصائح">Tips</a>
+    <a href="#faq" data-ar="أسئلة">FAQ</a>
+  </nav>
+  <button class="lang" id="lang" type="button" aria-label="Language">ع</button>
+</header>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="eyebrow rv" data-ar="دليل اللعبة">Field manual</div>
+  <h1 class="rv d1" data-ar="دليل اللاعب المحترف">Tactical guide</h1>
+  <p class="lead rv d2" data-ar="ألتميت إكس أو هي إكس أو بمستوى تاني: تسع لوحات صغيرة جوه لوحة كبيرة، وكل نقلة بتحدد الخصم يلعب فين. اتعلّم القواعد في دقيقتين.">Ultimate XO is tic-tac-toe on another level: nine small boards inside one big board, and every move decides where your opponent must play. Learn the rules in two minutes.</p>
+  <div class="chips rv d2">
+    <span class="chip">⏱ <b data-ar="دقيقتين">2 min</b> <span data-ar="للتعلّم">to learn</span></span>
+    <span class="chip">🎮 <b>6</b> <span data-ar="أوضاع لعب">game modes</span></span>
+    <span class="chip">🏆 <b>10</b> <span data-ar="درجات في الدوري">league divisions</span></span>
+  </div>
+  <div class="demo-wrap rv d3">
+    <div class="ub" id="heroBoard" style="--w:340px"></div>
+    <div class="dots" id="heroDots"></div>
+    <div class="cap" id="heroCap"></div>
+  </div>
+</section>
+
+<!-- ================= BASICS ================= -->
+<section class="sec" id="basics">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="الخطوة ١">The rules</div><h2 data-ar="ست قواعد وخلاص">Six rules, that's all</h2><p data-ar="لو فهمت القاعدة رقم ٢ فهمت اللعبة كلها.">Understand rule 2 and you understand the whole game.</p></div>
+  <div class="grid g3">
+    <div class="card step rv"><span class="n">1</span><div class="mini ub" data-mini="1"></div><h3 data-ar="لوحة جوه لوحة">A board inside a board</h3><p data-ar="الملعب ٩ لوحات صغيرة، كل لوحة فيها ٩ خانات. إنت X والخصم O.">The field is nine small boards, each with nine squares. You are X, your opponent is O.</p></div>
+    <div class="card step rv d1"><span class="n">2</span><div class="mini ub" data-mini="2"></div><h3 data-ar="نقلتك تحدد مكان نقلته">Your move picks his board</h3><p data-ar="اللي بتلعبه في خانة (مثلا أعلى اليمين) يجبر الخصم يلعب في اللوحة الصغيرة اللي في نفس المكان (أعلى اليمين).">The square you play (say top-right) forces your opponent to play in the matching small board (the top-right one).</p></div>
+    <div class="card step rv d2"><span class="n">3</span><div class="mini ub" data-mini="3"></div><h3 data-ar="اكسب لوحة صغيرة">Win a small board</h3><p data-ar="٣ علامات في صف داخل لوحة صغيرة (أفقي أو رأسي أو قطري) = اللوحة بقت بتاعتك.">Three in a row inside a small board (across, down or diagonal) and that board is yours.</p></div>
+    <div class="card step rv"><span class="n">4</span><div class="mini ub" data-mini="4"></div><h3 data-ar="اكسب المباراة">Win the match</h3><p data-ar="اكسب ٣ لوحات صغيرة في صف على اللوحة الكبيرة وانت الفايز.">Win three small boards in a row on the big board and the match is yours.</p></div>
+    <div class="card step rv d1"><span class="n">5</span><div class="mini ub" data-mini="5"></div><h3 data-ar="اللوحة المقفولة = لعب حر">Closed board = free move</h3><p data-ar="لو اتبعت للوحة اتكسبت أو اتملت، تلعب في أي لوحة مفتوحة. (دي لوحة متوهجة بالأصفر.)">If you are sent to a board that is already won or full, you may play in any open board (they glow yellow).</p></div>
+    <div class="card step rv d2"><span class="n">6</span><div class="mini ub" data-mini="6"></div><h3 data-ar="التعادل">Draws</h3><p data-ar="اللوحة اللي اتملت من غير فايز بتتقفل ومحدش بياخدها. لو مفيش خانات مفتوحة ومحدش كسب صف، المباراة تعادل.">A board that fills up with no winner is closed and counts for nobody. If nothing is left to play and nobody has a line, the match is a draw.</p></div>
+  </div>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="sec" id="practice">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="تدريب">Try it</div><h2 data-ar="جرّب بنفسك">Practice board</h2><p data-ar="لوحة حقيقية بنفس القواعد. بتعلّم المكان المطلوب بالأزرق، واللعب الحر بالأصفر. العب مع صاحبك أو ضد بوت عشوائي.">A real board with the real rules. The required board glows blue, a free move glows yellow. Play a friend, or a random bot.</p></div>
+  <div class="practice rv">
+    <div class="ub" id="pBoard" style="--w:460px"></div>
+    <div class="coach">
+      <div class="status" id="pStatus" aria-live="polite"></div>
+      <label class="tog"><input type="checkbox" id="pBot" checked> <span data-ar="العب ضد بوت (هو O)">Play against a bot (it plays O)</span></label>
+      <div><button class="btn" id="pReset" type="button" data-ar="ابدأ من جديد">New practice game</button></div>
+      <ul class="rules-mini">
+        <li data-ar="الإطار <b>الأزرق</b> = اللوحة اللي لازم تلعب فيها.">The <b>blue</b> frame = the board you must play in.</li>
+        <li data-ar="الإطار <b>الأصفر</b> = لعب حر.">The <b>yellow</b> frame = free move.</li>
+        <li data-ar="الخانة اللي بتلعبها بتحدد لوحة الخصم.">The square you pick decides his board.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODES ================= -->
+<section class="sec" id="modes">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="العب إزاي">Game modes</div><h2 data-ar="٦ أوضاع، اختار اللي يناسبك">Six ways to play</h2><p data-ar="كل الأوضاع من القائمة الرئيسية بعد تسجيل الدخول.">All of them are on the main menu once you sign in.</p></div>
+  <div class="grid g2">
+    <div class="card mode rv" style="--mc:#ffffff"><div class="ic">👥</div><h3><span data-ar="لعب محلي">Local PvP</span><small data-ar="مباراة كلاسيك">Classic 1v1</small></h3><p data-ar="اتنين على نفس الموبايل، بالدور. القواعد الكاملة من غير حاجات زيادة. بتتحسب في البروفايل كـ«مباراة لُعبت» من غير فوز أو خسارة لأحد.">Two people, one device, taking turns. The full rules with nothing added. It counts as a "game played" in your history, not a win or loss for anyone.</p><div class="tags"><span class="tag" data-ar="اتنين لاعبين">2 PLAYERS</span><span class="tag" data-ar="من غير نت">OFFLINE</span></div></div>
+    <div class="card mode rv d1" style="--mc:#b04dff"><div class="ic">🤖</div><h3><span data-ar="ضد الكمبيوتر">VS AI</span><small data-ar="٥ مستويات">5 levels</small></h3><p data-ar="إنت X وبتبدأ. المستويات: <b>Beginner</b> ← <b>Professional</b> ← <b>Top Player</b> ← <b>Legend</b> ← <b>Omar Mode</b>. الأخير بيفكر في أكتر من نقلة قدام. كل ماتش بيتسجل فوز أو تعادل أو خسارة.">You are X and you start. Levels: <b>Beginner</b> → <b>Professional</b> → <b>Top Player</b> → <b>Legend</b> → <b>Omar Mode</b>. The last one looks several moves ahead. Every match is saved as a win, draw or loss.</p><div class="tags"><span class="tag" data-ar="لاعب واحد">SOLO</span><span class="tag" data-ar="تعليقات على النقلات">LIVE COMMENTARY</span></div></div>
+    <div class="card mode rv" style="--mc:#ff8a1f"><div class="ic">🏆</div><h3><span data-ar="دوري XO">XO League</span><small data-ar="رتب ودرجات">Ranked &amp; divisions</small></h3><p data-ar="مسيرة لاعب واحد: ١٠ درجات من Iron لحد Legend، كل درجة خصمها بشخصية وصعوبة أعلى. ترقيات، مواسم كل ١٥ يوم، وترتيب عالمي من Elite.">A single-player career: 10 divisions from Iron to Legend, each opponent with its own personality and a harder brain. Promotions, 15-day seasons and a global leaderboard from Elite up.</p><div class="tags"><span class="tag" data-ar="مواسم">SEASONS</span><span class="tag" data-ar="ترتيب">LEADERBOARD</span><span class="tag" data-ar="شارات">BADGES</span></div></div>
+    <div class="card mode rv d1" style="--mc:#ffcc00"><div class="ic">🎁</div><h3><span data-ar="وضع الصناديق">Mystery Mode</span><small data-ar="فوضى وقدرات">Chaos &amp; power-ups</small></h3><p data-ar="كل ٥ نقلات بيظهر صندوق غامض على خانة فاضية. افتحه وشوف: سرقة لوحة، تبديل، قفل، فخ... ممكن يقلب الماتش. في اختيار «عداد ١٥ ثانية» لكل نقلة.">Every 5 moves a mystery box appears on an empty square. Open it and see: steal a board, swap, lock, trap... it can flip a match. Optional 15-second shot clock per move.</p><div class="tags"><span class="tag" data-ar="٦ تأثيرات">6 EFFECTS</span><span class="tag" data-ar="عداد وقت">SHOT CLOCK</span></div></div>
+    <div class="card mode rv" style="--mc:#12c8d9"><div class="ic">🧭</div><h3><span data-ar="وضع الرحّال">Nomad Mode</span><small data-ar="٣ علامات: اختار وحرّك">3 marks, pick &amp; move</small></h3><p data-ar="لوحة ٣×٣ واحدة. كل لاعب بيحط ٣ علامات بس، وبعدها كل دور بتختار علامة من علاماتك وتنقلها لأي خانة فاضية. أول واحد يعمل صف من ٣ يكسب. خليك دايما محضّر تهديدين.">One 3×3 board. Each player places only 3 marks, then every turn you pick one of your marks and move it to any empty square. First to line up three wins. Always keep two threats ready.</p><div class="tags"><span class="tag" data-ar="سريع">QUICK</span><span class="tag" data-ar="عداد وقت">SHOT CLOCK</span></div></div>
+    <div class="card mode rv d1" style="--mc:#ff2f6d"><div class="ic">🌐</div><h3><span data-ar="ماتش مع صاحبك">Friend Match</span><small data-ar="أونلاين">Online multiplayer</small></h3><p data-ar="اعمل غرفة وابعت الكود (٤ أرقام) لصاحبك، أو ادخل بكوده. اختار كلاسيك أو صناديق أو رحّال. في ريماتش بعد كل ماتش، وبيظهر أفاتارك واسمك في شاشة VS.">Create a room and send the 4-digit code to a friend, or join with theirs. Pick Classic, Mystery or Nomad. Rematch after every game, and your avatar and name show on the VS screen.</p><div class="tags"><span class="tag" data-ar="أونلاين">ONLINE</span><span class="tag" data-ar="٣ أنماط">3 STYLES</span><span class="tag" data-ar="ريماتش">REMATCH</span></div></div>
+  </div>
+</section>
+
+<!-- ================= MYSTERY ================= -->
+<section class="sec" id="mystery">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="وضع الصناديق">Mystery box</div><h2 data-ar="٦ تأثيرات للصندوق">Six box effects</h2><p data-ar="الصندوق بيظهر كل ٥ نقلات (العداد فوق اللوحة). فتحه مش بياخد نقلة، إلا لو التأثير بينهي دورك.">A box appears every 5 moves (the counter is above the board). Opening one doesn't cost a move unless the effect ends your turn.</p></div>
+  <table class="tbl rv">
+    <tr><td style="color:#7ee6f0">VIRUS <span class="pct">20%</span></td><td data-ar="اسرق أي لوحة صغيرة مفتوحة، بتبقى بتاعتك فورا. وبعدها الدور يعدي للخصم.">Steal any open small board: it becomes yours instantly. The turn then passes.</td></tr>
+    <tr><td style="color:#c9a8ff">GRAVITY <span class="pct">20%</span></td><td data-ar="العلامات بتطفو لحظة. مفاجأة شكلية، القواعد مش بتتغير.">Marks float for a moment. A visual surprise, the rules stay the same.</td></tr>
+    <tr><td style="color:#ffcc00">SWAP <span class="pct">20%</span></td><td data-ar="اختار خانتين وبدّل اللي فيهم. ممكن تبني صف أو تهدّ صف للخصم، وحتى تكسب لوحة.">Pick any two squares and swap what is in them. Build your line, break his, even win a board.</td></tr>
+    <tr><td style="color:#ff8a1f">LOCKDOWN <span class="pct">20%</span></td><td data-ar="اللوحة اللي فتحت فيها الصندوق بتتقفل ١٠ ثواني، ومحدش يلعب فيها. وتكمّل إنت في أي مكان تاني.">The board where you opened the box locks for 10 seconds, nobody can play in it, and you continue anywhere else.</td></tr>
+    <tr><td style="color:#1fd077">PURGED <span class="pct">10%</span></td><td data-ar="اللوحة دي بتتمسح تماما (حتى لو حد كان كاسبها) والدور يعدي.">That small board is wiped clean (even if someone had won it) and the turn passes.</td></tr>
+    <tr><td style="color:#ff2f6d">TRAP <span class="pct">10%</span></td><td data-ar="علامة الخصم بتظهر في الخانة دي وإنت بتخسر دورك.">Your opponent's mark appears in that square and you lose your turn.</td></tr>
+  </table>
+  <div class="note rv" data-ar="<b>نصيحة:</b> الصندوق قنبلة بوجهين. افتحه لما تحتاج قلب النتيجة، وسيبه لما تكون كسبان بوضوح.">💡 <b>Tip:</b> a box cuts both ways. Open it when you need a swing, and leave it alone when you are clearly ahead.</div>
+</section>
+
+<!-- ================= LEAGUE ================= -->
+<section class="sec" id="league">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="دوري XO">XO League</div><h2 data-ar="من Iron لحد Legend">From Iron to Legend</h2><p data-ar="١٠ درجات. كل درجة خصم بشخصية مختلفة. اطلع درجة درجة.">Ten divisions. Every division has its own opponent personality. Climb one step at a time.</p></div>
+  <div class="ladder rv" id="ladder"></div>
+  <div class="legend rv"><span data-ar="درجات التسخين: بتجمع نقاط للترقية">Casual: collect points to be promoted</span><span class="rk" data-ar="درجات الرانك: نقاط وترتيب عالمي">Ranked: points and a global leaderboard</span></div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card rv"><h3 data-ar="الدرجات X لحد IV">Divisions X to IV</h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 14px" data-ar="كل ماتش بيديك نقاط، واملا الشريط عشان تترقى. بعد ٣ انتصارات ورا بعض بتاخد نقطة زيادة.">Every match gives points. Fill the bar to be promoted. A win streak of 3 or more adds a bonus point.</p>
+      <div class="pts"><div class="w"><b>+3</b><span data-ar="فوز">WIN</span></div><div class="d"><b>+1</b><span data-ar="تعادل">DRAW</span></div><div class="l"><b>0</b><span data-ar="خسارة">LOSS</span></div></div>
+      <p style="color:var(--mute);font-size:.85rem;margin:14px 0 0" data-ar="النقاط اللازمة للترقية: Iron ٩ · Bronze ١١ · Silver ١٤ · Gold ١٦ · Platinum ٢٠ · Emerald ٢٢ · Diamond ٢٥.">Points to be promoted: Iron 9 · Bronze 11 · Silver 14 · Gold 16 · Platinum 20 · Emerald 22 · Diamond 25.</p></div>
+    <div class="card rv d1"><h3 data-ar="الرانك: Elite · Master · Legend">Ranked: Elite · Master · Legend</h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 14px" data-ar="هنا بتبدأ النقاط الكبيرة والترتيب العالمي. الفوز السريع والنضيف بيديك أكتر.">Here the big points and the global leaderboard start. Quick, clean wins pay more.</p>
+      <div class="pts"><div class="w"><b>+10…32</b><span data-ar="فوز (حسب الكفاءة)">WIN (by efficiency)</span></div><div class="d"><b>+15</b><span data-ar="تعادل">DRAW</span></div><div class="l"><b>−15…20</b><span data-ar="خسارة">LOSS</span></div></div>
+      <p style="color:var(--mute);font-size:.85rem;margin:14px 0 0" data-ar="تبدأ Elite من ١٠٠٠ وتترقى عند ١٢٠٠. Master تبدأ ١٢٠٠ وتترقى عند ١٥٠٠. Legend تبدأ ١٥٠٠. مبتنزلش تحت نقطة بداية درجتك. سلسلة فوز ٣+ بتزوّد لحد +١٠.">Elite starts at 1000 and promotes at 1200. Master starts at 1200 and promotes at 1500. Legend starts at 1500. You never fall below your division's starting points. Win streaks of 3+ add up to +10.</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card rv"><h3 data-ar="المواسم">Seasons</h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="الموسم ١٥ يوم. في آخره بتنزل لدرجة أقل شوية: Legend ← Diamond، Master ← Emerald، Elite ← Gold، وأي درجة تانية ← Iron. كده الكل بيعيد التسلق.">A season lasts 15 days. At the end everyone drops back: Legend → Diamond, Master → Emerald, Elite → Gold, anyone else → Iron. Everybody climbs again.</p></div>
+    <div class="card rv d1"><h3 data-ar="الشارات 🥇🥈">Badges 🥇🥈</h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="أحسن ١٠٠ لاعب في آخر الموسم بياخدوا شارة: أول ٥٠ ذهبية، من ٥١ لـ ١٠٠ فضية. بتفضل في بروفايلك.">The top 100 players at season end earn a badge: top 50 gold, 51 to 100 silver. It stays on your profile.</p></div>
+  </div>
+</section>
+
+<!-- ================= PROFILE ================= -->
+<section class="sec" id="profile">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="حسابك">Your profile</div><h2 data-ar="خلّي ليك شخصية">Make it yours</h2><p data-ar="اضغط على اسمك فوق في القائمة الرئيسية.">Tap your name at the top of the main menu.</p></div>
+  <div class="grid g2">
+    <div class="card rv"><h3>🎭 <span data-ar="مصمم الشخصية">Character maker</span></h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="صمّم شخصيتك: لون البشرة، أكتر من ٢٥ تسريحة (بوليوود، مسحوب لورا، ضفيرة، كعكة...)، ١٦ طاقية (كاوبوي، تاج، شيف...)، تعبيرات، نضارات، دقن، هدوم وألوان. أو ارفع صورتك، أو اختار إيموجي.">Design your character: skin tone, 25+ hairstyles (Bollywood wave, slick back, braid, bun...), 16 hats (cowboy, crown, chef...), expressions, glasses, beards, outfits and colours. Or upload your own photo, or pick an emoji.</p></div>
+    <div class="card rv d1"><h3>📊 <span data-ar="تاريخ نتايجك">Your results</span></h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="البروفايل بيعرض فوزك وتعادلك وخسارتك من كل الأوضاع، وآخر ١٢ نتيجة، وتفصيل لكل وضع. الماتشات المحلية بين اتنين بتتحسب «لُعبت» بس.">Your profile shows wins, draws and losses across every mode, your last 12 results and a breakdown per mode. Two-player matches on one device only count as "played".</p></div>
+    <div class="card rv"><h3>☁️ <span data-ar="حساب أو ضيف؟">Account or guest?</span></h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="الضيف بيلعب عادي لكن التقدم بيتحفظ على الجهاز ده بس. بالحساب تقدمك ونتايجك وشخصيتك بتتحفظ وتفتح من أي جهاز.">A guest can play everything, but progress stays on that one device. With an account, your progress, results and character are saved and open on any device.</p></div>
+    <div class="card rv d1"><h3>📲 <span data-ar="ثبّتها كتطبيق">Install it as an app</span></h3><p style="color:var(--mute);font-size:.92rem;margin:8px 0 0" data-ar="من الصفحة الأولى اضغط «INSTALL APP» (أندرويد وكروم)، أو في آيفون: مشاركة ← إضافة إلى الشاشة الرئيسية. بتفتح بملء الشاشة، والأوضاع المحلية بتشتغل من غير نت.">On the start page tap "INSTALL APP" (Android and Chrome), or on iPhone: Share → Add to Home Screen. It opens full screen and the local modes work without internet.</p></div>
+  </div>
+</section>
+
+<!-- ================= TIPS ================= -->
+<section class="sec" id="tips">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="من المحترفين">Pro tips</div><h2 data-ar="فكّر زي اللاعيبة الكبار">Think like a champion</h2></div>
+  <ol class="list rv" style="list-style:none;padding:0">
+    <li data-i="1" data-ar="<b>فكّر في اللوحة اللي هتبعتها، مش الخانة اللي بتلعبها.</b> أحسن نقلة ساعات هي اللي تبعت الخصم للوحة مفيهاش له فرصة.">Think about <b>where you send</b> your opponent, not just where you play. The best move often sends him to a board where he has nothing.</li>
+    <li data-i="2" data-ar="<b>متبعتش الخصم للوحة هو قريب يكسبها.</b> لو عنده علامتين في صف، كل خانة تدخله اللوحة دي هدية.">Never send him to a board he is about to win. If he has two in a row there, you just handed him the keys.</li>
+    <li data-i="3" data-ar="<b>كسب لوحة مش دايما فكرة حلوة.</b> لو الخانة اللي كسبت بيها بتبعتهم لوحة مقفولة، هما هياخدوا لعب حر.">Winning a board isn't always good. If your winning square sends him to a closed board, he gets a free move.</li>
+    <li data-i="4" data-ar="<b>اللوحة الوسط والأركان</b> بتدخلك في صفوف أكتر على اللوحة الكبيرة. العب عليهم بدري.">The <b>centre and corner boards</b> sit in more lines on the big board. Fight for them early.</li>
+    <li data-i="5" data-ar="<b>اللعب الحر سلاح.</b> لو جاتلك، استخدمها عشان تكمّل صف أو تقطع صف قبل ما يخلص.">A free move is a weapon. When you get one, finish a line or cut one of his before it lands.</li>
+    <li data-i="6" data-ar="<b>راجع التعليقات.</b> اللعبة بتنبّهك لما تعمل «نقلة غلط» أو «نقلة ذكية». اتعلم منهم.">Read the commentary. The game flags blunders and brilliant moves. Learn from them.</li>
+    <li data-i="7" data-ar="<b>في الرحّال:</b> حاول تعمل تهديدين في نفس الوقت. الخصم هيقدر يسدّ واحد بس.">In <b>Nomad</b>, build two threats at once. He can only block one.</li>
+  </ol>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec" id="faq">
+  <div class="sec-h rv"><div class="eyebrow" data-ar="أسئلة شائعة">FAQ</div><h2 data-ar="لسه عندك سؤال؟">Still wondering?</h2></div>
+  <div class="rv">
+    <details><summary data-ar="ليه أقدر ألعب في أي لوحة؟">Why can I play in any board?</summary><p data-ar="لأن اللوحة اللي كان المفروض تلعب فيها اتكسبت أو اتملت. وقتها بتاخد لعب حر، واللوحات المتاحة بتتوهج بالأصفر.">Because the board you were meant to play in is already won or full. You get a free move, and the open boards glow yellow.</p></details>
+    <details><summary data-ar="هل أقدر ألعب من غير نت؟">Can I play offline?</summary><p data-ar="لو ثبّتّ اللعبة كتطبيق، أوضاع اللعب المحلي والكمبيوتر والصناديق والرحّال بتشتغل من غير نت. الأونلاين والترتيب العالمي والحفظ على السحابة محتاجين نت.">If you installed the app, Local, VS AI, Mystery and Nomad work without internet. Online matches, the global leaderboard and cloud saving need a connection.</p></details>
+    <details><summary data-ar="تقدمي بيتحفظ إزاي؟">How is my progress saved?</summary><p data-ar="لو داخل بحساب، بيتحفظ تلقائي وتلاقيه على أي جهاز. لو ضيف، بيتحفظ على الجهاز ده فقط.">Signed in, it saves automatically and follows you to any device. As a guest, it stays on this device only.</p></details>
+    <details><summary data-ar="إزاي أعمل ريماتش أونلاين؟">How do I rematch online?</summary><p data-ar="بعد النهاية اضغط «ريماتش». لما صاحبك يوافق، اللوحة بتبدأ من جديد في نفس الغرفة.">When the game ends, tap Rematch. Once your friend accepts, a fresh board starts in the same room.</p></details>
+    <details><summary data-ar="الوقت خلص في الـ Shot Clock، إيه اللي بيحصل؟">What happens when the shot clock runs out?</summary><p data-ar="اللعبة بتلعب نقلة عشوائية مكانك، فخلي بالك من الشريط الأحمر.">The game plays a random move for you, so watch the bar turn red.</p></details>
+    <details><summary data-ar="الماتشات المحلية بين اتنين بتتحسب فوز؟">Do two-player local games count as wins?</summary><p data-ar="لا. مفيش حد معين نقول إنه «إنت»، فبتتسجل «لُعبت» بس. الفوز والخسارة بيتحسبوا ضد الكمبيوتر وفي الأونلاين وفي الدوري.">No. There is no single "you" to credit, so they are recorded as "played". Wins and losses come from VS AI, Online and the League.</p></details>
+  </div>
+
+  <div class="cta rv">
+    <h2 data-ar="جاهز؟">Ready?</h2>
+    <p data-ar="الميدان مستنيك.">The board is waiting.</p>
+    <div class="row"><a class="btn main" id="goPlay" href="Login.html" data-ar="ابدأ اللعب">START PLAYING</a><a class="btn" href="index.html" data-ar="الصفحة الرئيسية">HOME</a></div>
+  </div>
+</section>
+
+<footer>BY OMAR FARID</footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); }, $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+  var lang = 'en';
+  try { lang = localStorage.getItem('xo_guide_lang') || ((navigator.language || '').toLowerCase().indexOf('ar') === 0 ? 'ar' : 'en'); } catch (e) {}
+
+  /* ---------- text used by scripts ---------- */
+  var T = {
+    en: {
+      pos: ['top-left', 'top', 'top-right', 'left', 'centre', 'right', 'bottom-left', 'bottom', 'bottom-right'],
+      board: 'board', any: 'any open board',
+      demo: [
+        'X plays the <b>top-right</b> square of the <b>centre</b> board.',
+        'So O must answer in the <b>top-right</b> board. (Blue frame.)',
+        'O plays its <b>bottom-left</b> square there...',
+        '...which sends X to the <b>bottom-left</b> board.',
+        'X takes the <b>centre</b> of that board and sends O to the <b>centre</b> board.',
+        'Every move is a decision for <b>two</b> boards: yours and his.'
+      ],
+      turn: function (p, b, ps) { return '<span class="who ' + p + '">' + p + '</span>' + (b < 0 ? '<b>Free move:</b> play in any open board.' : 'Play in the <b>' + ps[b] + '</b> board.'); },
+      won: function (p, ps, m) { return '<span class="who ' + p + '">' + p + '</span><b>Board won!</b> The ' + ps[m] + ' board is now ' + p + '\'s.'; },
+      sent: function (ps, b) { return b < 0 ? 'That board is closed, so your opponent gets a <b>free move</b>.' : 'Your opponent must play in the <b>' + ps[b] + '</b> board.'; },
+      win: function (p) { return '<span class="who ' + p + '">' + p + '</span><b>' + p + ' wins the match!</b> Press "New practice game" to go again.'; },
+      draw: '<b>Draw.</b> Nothing left to play. Press "New practice game".',
+      botT: 'Bot is thinking...'
+    },
+    ar: {
+      pos: ['أعلى اليسار', 'أعلى الوسط', 'أعلى اليمين', 'يسار', 'الوسط', 'يمين', 'أسفل اليسار', 'أسفل الوسط', 'أسفل اليمين'],
+      board: 'لوحة', any: 'أي لوحة مفتوحة',
+      demo: [
+        'X بيلعب في خانة <b>أعلى اليمين</b> من لوحة <b>الوسط</b>.',
+        'يبقى O لازم يرد في لوحة <b>أعلى اليمين</b>. (الإطار الأزرق.)',
+        'O بيلعب في خانة <b>أسفل اليسار</b> هناك...',
+        '...وده بيبعت X للوحة <b>أسفل اليسار</b>.',
+        'X ياخد <b>وسط</b> اللوحة دي ويبعت O للوحة <b>الوسط</b>.',
+        'كل نقلة قرار في <b>لوحتين</b>: لوحتك ولوحة الخصم.'
+      ],
+      turn: function (p, b, ps) { return '<span class="who ' + p + '">' + p + '</span>' + (b < 0 ? '<b>لعب حر:</b> العب في أي لوحة مفتوحة.' : 'العب في لوحة <b>' + ps[b] + '</b>.'); },
+      won: function (p, ps, m) { return '<span class="who ' + p + '">' + p + '</span><b>كسبت لوحة!</b> لوحة ' + ps[m] + ' بقت بتاعة ' + p + '.'; },
+      sent: function (ps, b) { return b < 0 ? 'اللوحة دي مقفولة، يبقى خصمك ياخد <b>لعب حر</b>.' : 'خصمك لازم يلعب في لوحة <b>' + ps[b] + '</b>.'; },
+      win: function (p) { return '<span class="who ' + p + '">' + p + '</span><b>' + p + ' كسب المباراة!</b> اضغط «ابدأ من جديد» للعب تاني.'; },
+      draw: '<b>تعادل.</b> مفيش خانات. اضغط «ابدأ من جديد».',
+      botT: 'البوت بيفكر...'
+    }
+  };
+
+  /* ---------- game rules (shared by every board on the page) ---------- */
+  var LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  var line3 = function (b, p) { return LINES.some(function (l) { return l.every(function (i) { return b[i] === p; }); }); };
+  function Game() { this.reset(); }
+  Game.prototype.reset = function () {
+    this.b = []; for (var i = 0; i < 9; i++) this.b.push(['', '', '', '', '', '', '', '', '']);
+    this.w = ['', '', '', '', '', '', '', '', '']; this.next = -1; this.turn = 'X'; this.over = ''; this.last = null;
+  };
+  Game.prototype.open = function (m) { return this.w[m] === '' && this.b[m].indexOf('') > -1; };
+  Game.prototype.legal = function (m, c) { return !this.over && this.b[m][c] === '' && this.w[m] === '' && (this.next < 0 || this.next === m); };
+  Game.prototype.moves = function () { var r = []; for (var m = 0; m < 9; m++) for (var c = 0; c < 9; c++) if (this.legal(m, c)) r.push([m, c]); return r; };
+  Game.prototype.play = function (m, c) {
+    if (!this.legal(m, c)) return null;
+    var p = this.turn, res = { won: -1 };
+    this.b[m][c] = p; this.last = [m, c];
+    if (line3(this.b[m], p)) { this.w[m] = p; res.won = m; }
+    else if (this.b[m].indexOf('') < 0) this.w[m] = 'D';
+    if (line3(this.w, p)) this.over = p;
+    this.next = this.open(c) ? c : -1;
+    if (!this.over && !this.moves().length) this.over = 'D';
+    this.turn = p === 'X' ? 'O' : 'X';
+    res.sent = this.next; res.by = p;
+    return res;
+  };
+
+  /* ---------- drawing ---------- */
+  function draw(el, g, o) {
+    o = o || {};
+    var h = '';
+    for (var m = 0; m < 9; m++) {
+      var cls = 'mb', win = g.w[m];
+      if (o.target && o.target.indexOf(m) > -1) cls += ' target';
+      if (o.free && !win) cls += ' free';
+      if (win) cls += ' closed';
+      h += '<div class="' + cls + '" data-m="' + m + '">';
+      for (var c = 0; c < 9; c++) {
+        var v = g.b[m][c], k = 'c' + (v ? ' ' + v : '');
+        if (o.hot && o.hot[0] === m && o.hot[1] === c) k += ' hot';
+        if (!o.hot && g.last && g.last[0] === m && g.last[1] === c && o.showLast) k += ' last';
+        var can = o.play && g.legal(m, c);
+        h += '<button type="button" class="' + k + (can ? ' play' : '') + '" data-m="' + m + '" data-c="' + c + '" ' + (can ? '' : 'tabindex="-1"') + ' aria-label="' + T[lang].pos[m] + ' / ' + T[lang].pos[c] + '">' + v + '</button>';
+      }
+      if (win) h += '<span class="big ' + win + '">' + (win === 'D' ? '=' : win) + '</span>';
+      h += '</div>';
+    }
+    el.innerHTML = h;
+  }
+  function fromMap(marks, winners) {
+    var g = new Game();
+    Object.keys(marks).forEach(function (k) { var a = k.split(':'); g.b[+a[0]][+a[1]] = marks[k]; });
+    Object.keys(winners || {}).forEach(function (k) { g.w[+k] = winners[k]; });
+    return g;
+  }
+
+  /* ---------- six static mini diagrams in the rule cards ---------- */
+  function minis() {
+    var cfg = {
+      1: { g: fromMap({ '0:0': 'X', '4:4': 'O', '8:8': 'X', '2:6': 'O' }), o: {} },
+      2: { g: fromMap({ '4:2': 'X' }), o: { target: [2], hot: [4, 2] } },
+      3: { g: fromMap({ '0:0': 'X', '0:1': 'X', '0:2': 'X', '0:4': 'O', '0:3': 'O', '4:4': 'O', '8:2': 'X' }, { 0: 'X' }), o: {} },
+      4: { g: fromMap({}, { 0: 'X', 1: 'X', 2: 'X', 4: 'O', 6: 'O' }), o: {} },
+      5: { g: fromMap({ '4:0': 'X' }, { 0: 'O' }), o: { free: true } },
+      6: { g: fromMap({ '0:0': 'X', '0:1': 'O', '0:2': 'X', '0:3': 'O', '0:4': 'X', '0:5': 'X', '0:6': 'O', '0:7': 'X', '0:8': 'O' }, { 0: 'D' }), o: {} }
+    };
+    $$('[data-mini]').forEach(function (el) { var c = cfg[el.dataset.mini]; draw(el, c.g, c.o); });
+    $$('[data-mini] .c').forEach(function (b) { b.tabIndex = -1; });
+  }
+
+  /* ---------- hero: self-playing demo ---------- */
+  var heroSteps = [
+    { moves: [[4, 2]], target: [2], hot: [4, 2] },
+    { moves: [[4, 2]], target: [2], hot: null },
+    { moves: [[4, 2], [2, 6]], target: [6], hot: [2, 6] },
+    { moves: [[4, 2], [2, 6]], target: [6], hot: null },
+    { moves: [[4, 2], [2, 6], [6, 4]], target: [4], hot: [6, 4] },
+    { moves: [[4, 2], [2, 6], [6, 4]], target: [4], hot: null }
+  ];
+  var heroI = 0, heroTimer = null;
+  function heroShow() {
+    var s = heroSteps[heroI], g = new Game();
+    s.moves.forEach(function (mv) { g.play(mv[0], mv[1]); });
+    draw($('#heroBoard'), g, { target: s.target, hot: s.hot });
+    $('#heroCap').innerHTML = T[lang].demo[heroI];
+    $$('#heroDots i').forEach(function (d, i) { d.classList.toggle('on', i === heroI); });
+  }
+  function heroLoop() { clearInterval(heroTimer); heroTimer = setInterval(function () { heroI = (heroI + 1) % heroSteps.length; heroShow(); }, 2900); }
+  function heroInit() {
+    $('#heroDots').innerHTML = heroSteps.map(function () { return '<i></i>'; }).join('');
+    $$('#heroDots i').forEach(function (d, i) { d.style.cursor = 'pointer'; d.onclick = function () { heroI = i; heroShow(); heroLoop(); }; });
+    heroShow(); heroLoop();
+  }
+
+  /* ---------- practice board ---------- */
+  var pg = new Game(), pMsg = '', pBusy = false;
+  function pRender() {
+    var t = T[lang], tgt = pg.over ? [] : (pg.next < 0 ? [] : [pg.next]);
+    draw($('#pBoard'), pg, { target: tgt, free: !pg.over && pg.next < 0, play: !pBusy, showLast: true });
+    var s;
+    if (pg.over === 'D') s = t.draw; else if (pg.over) s = t.win(pg.over);
+    else s = (pMsg ? pMsg + '<br>' : '') + t.turn(pg.turn, pg.next, t.pos);
+    $('#pStatus').innerHTML = pBusy ? t.botT : s;
+  }
+  function pMove(m, c) {
+    var r = pg.play(m, c); if (!r) return false;
+    var t = T[lang]; pMsg = '';
+    if (r.won > -1 && !pg.over) pMsg = t.won(r.by, t.pos, r.won).replace(/<span[^>]*>.*?<\/span>/, '');
+    pRender();
+    return true;
+  }
+  function pBot() {
+    if (pg.over || pg.turn !== 'O' || !$('#pBot').checked) return;
+    pBusy = true; pRender();
+    setTimeout(function () {
+      var mv = pg.moves(); if (mv.length) {
+        // takes a winning board, blocks one, otherwise random
+        var pick = null;
+        mv.forEach(function (x) { if (!pick) { var b = pg.b[x[0]].slice(); b[x[1]] = 'O'; if (line3(b, 'O')) pick = x; } });
+        if (!pick) mv.forEach(function (x) { if (!pick) { var b = pg.b[x[0]].slice(); b[x[1]] = 'X'; if (line3(b, 'X')) pick = x; } });
+        pick = pick || mv[Math.floor(Math.random() * mv.length)];
+        pBusy = false; pMove(pick[0], pick[1]);
+      } else pBusy = false;
+    }, 650);
+  }
+  function pInit() {
+    $('#pBoard').addEventListener('click', function (e) {
+      var b = e.target.closest('.c'); if (!b || pBusy || pg.over) return;
+      if (pg.turn === 'O' && $('#pBot').checked) return;
+      if (pMove(+b.dataset.m, +b.dataset.c)) pBot();
+    });
+    $('#pReset').onclick = function () { pg.reset(); pMsg = ''; pBusy = false; pRender(); };
+    $('#pBot').onchange = function () { pBusy = false; pRender(); pBot(); };
+    pRender();
+  }
+
+  /* ---------- league ladder ---------- */
+  var DIVS = [
+    ['X', 'Iron', '#9a9a9a', 'Wild', '9 pts'], ['IX', 'Bronze', '#cd7f32', 'Greedy', '11 pts'], ['VIII', 'Silver', '#cfcfcf', 'Cautious', '14 pts'],
+    ['VII', 'Gold', '#ffcc00', 'Balanced', '16 pts'], ['VI', 'Platinum', '#00ccff', 'Hunter', '20 pts'], ['V', 'Emerald', '#00ff99', 'The Wall', '22 pts'],
+    ['IV', 'Diamond', '#00f3ff', 'Tactician', '25 pts'], ['III', 'Elite', '#bc13fe', 'Strategist', '1000 → 1200'], ['II', 'Master', '#ff8800', 'Predator', '1200 → 1500'], ['I', 'Legend', '#ff2244', 'Relentless', '1500+']
+  ];
+  function ladder() {
+    $('#ladder').innerHTML = DIVS.map(function (d, i) {
+      return '<div class="div' + (i > 6 ? ' ranked' : '') + '" style="--dc:' + d[2] + '"><div class="r">' + d[0] + '</div><div class="nm">' + d[1] + '</div><div class="ai">' + d[3] + '</div><div class="rq">' + d[4] + '</div></div>';
+    }).join('');
+  }
+
+  /* ---------- language ---------- */
+  function setLang(l, first) {
+    lang = l;
+    document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; document.body.dir = l === 'ar' ? 'rtl' : 'ltr';
+    $$('[data-ar]').forEach(function (el) {
+      if (el.dataset.en === undefined) el.dataset.en = el.innerHTML;
+      el.innerHTML = l === 'ar' ? el.dataset.ar : el.dataset.en;
+    });
+    $('#lang').textContent = l === 'ar' ? 'EN' : 'ع';
+    try { localStorage.setItem('xo_guide_lang', l); } catch (e) {}
+    if (!first) { minis(); heroShow(); pRender(); }
+  }
+  $('#lang').onclick = function () { setLang(lang === 'ar' ? 'en' : 'ar'); };
+
+  /* ---------- reveal on scroll + active nav ---------- */
+  function observe() {
+    var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12 }) : null;
+    $$('.rv').forEach(function (el) { if (io) io.observe(el); else el.classList.add('in'); });
+    var links = $$('#nav a'), secs = links.map(function (a) { return $(a.getAttribute('href')); });
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY + 120, cur = -1;
+      secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+      if (cur > -1) links[cur].scrollIntoView({ block: 'nearest', inline: 'center' });
+    }, { passive: true });
+  }
+
+  /* ---------- entrance ---------- */
+  function boot() {
+    var el = $('#boot'), txt = $('#bootText'), words = { en: 'LOADING FIELD MANUAL', ar: 'جاري تحميل الدليل' }, w = words[lang], i = 0, done = false;
+    function open() {
+      if (done) return; done = true; el.classList.add('open'); document.body.classList.remove('lock');
+      setTimeout(function () { el.style.display = 'none'; }, 1000);
+    }
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (calm) { el.style.display = 'none'; return; }
+    document.body.classList.add('lock');
+    var ty = setInterval(function () { txt.textContent = w.slice(0, ++i); if (i >= w.length) clearInterval(ty); }, 55);
+    el.addEventListener('click', open); setTimeout(open, 2100);
+  }
+
+  /* ---------- go ---------- */
+  var ref = document.referrer || '', same = ref.indexOf(location.host) > -1 && ref.indexOf('howtoplay') < 0;
+  $('#back').addEventListener('click', function (e) { if (same && history.length > 1) { e.preventDefault(); history.back(); } });
+  try { if (localStorage.getItem('xo_hint')) $('#goPlay').href = 'Bbb.html'; } catch (e) {}
+  setLang(lang, true);
+  ladder(); minis(); heroInit(); pInit(); observe(); boot();
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+})();
+</script>
+</body>
+</html>

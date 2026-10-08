@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Difficulty - Cinematic Space</title>
+    <style>
+        /* --- ستايل الخلفية الفضائية المطور --- */
+        body {
+            margin: 0; padding: 0;
+            background-color: #020205;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden; overflow-y: auto; position: relative;
+        }
+
+        .space-bg {
+            position: fixed; inset: 0; z-index: 0;
+            background: radial-gradient(circle at center, #0d001a 0%, #020205 100%);
+        }
+
+        /* نجوم سينمائية بتتحرك بعمق */
+        .star-field {
+            position: absolute; inset: -50%;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 20% 30%, #fff 100%, transparent),
+                radial-gradient(1px 1px at 70% 10%, #9d00ff 100%, transparent),
+                radial-gradient(2px 2px at 50% 80%, #fff 100%, transparent),
+                radial-gradient(1px 1px at 90% 40%, #00f3ff 100%, transparent);
+            background-size: 300px 300px;
+            animation: spaceFloat 40s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes spaceFloat {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.2); }
+        }
+
+        /* --- الأيقونات المتعلقة (للحفاظ على روح التصميم) --- */
+        .rope {
+            position: absolute; top: -10px; width: 2px; height: 120px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), #9d00ff);
+            transform-origin: top center; animation: swing 5s infinite ease-in-out;
+            z-index: 5;
+        }
+        .rope-left { left: 10%; }
+        .rope-right { right: 10%; height: 150px; animation-delay: -2s; }
+        .icon-x { position: absolute; bottom: -35px; left: -18px; font-size: 40px; font-weight: 900; color: #ff0055; text-shadow: 0 0 20px #ff0055; transform: rotate(15deg); }
+        .icon-o { position: absolute; bottom: -35px; left: -18px; font-size: 40px; font-weight: 900; color: #00f3ff; text-shadow: 0 0 20px #00f3ff; }
+
+        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+
+        /* --- المحتوى (بدون المربع) --- */
+        .content-wrapper {
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+            padding: 24px 0;
+        }
+
+        h2 {
+            color: white; letter-spacing: 5px; font-size: 24px;
+            margin-bottom: 40px; text-shadow: 0 0 15px #9d00ff;
+            text-transform: uppercase;
+        }
+
+        .levels-grid {
+            display: flex; flex-direction: column;
+            gap: 15px; align-items: center;
+        }
+
+        /* ستايل الأزرار (نفس الفونت والحجم كما طلبت) */
+        .lvl-btn {
+            width: 280px; padding: 15px;
+            background: rgba(0, 0, 0, 0.4); /* خلفية خفيفة جداً عشان تظهر النجوم */
+            border: 2px solid #9d00ff; color: white;
+            border-radius: 50px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase;
+            transition: 0.3s; font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+
+        .lvl-btn:hover {
+            background: #9d00ff; box-shadow: 0 0 25px #9d00ff;
+            transform: scale(1.05);
+        }
+
+        /* ستايل عمر مود (كما هو) */
+        .omar-mode {
+            border-color: #ff0055 !important;
+            color: #ff0055 !important;
+            font-weight: 900 !important;
+            text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055;
+            background: linear-gradient(45deg, rgba(255, 0, 85, 0.2), rgba(255, 60, 0, 0.2)) !important;
+            background-size: 200% 200%;
+            animation: neonFirePulse 4s infinite alternate !important;
+        }
+
+        .omar-mode:hover {
+            background: #ff0055 !important;
+            color: white !important;
+            box-shadow: 0 0 40px #ff0055, 0 0 60px #ff0055 !important;
+        }
+
+        @keyframes neonFirePulse {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); background-position: 0% 50%; }
+            50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(255, 0, 85, 0.6); background-position: 100% 50%; }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); background-position: 0% 50%; }
+        }
+
+        .back-link {
+            display: inline-block; margin-top: 30px;
+            color: #aaa; text-decoration: none;
+            font-size: 12px; transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        .back-link:hover { color: #fff; text-shadow: 0 0 5px #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="space-bg">
+        <div class="star-field"></div>
+        
+        <div class="rope rope-left"><div class="icon-x">X</div></div>
+        <div class="rope rope-right"><div class="icon-o">O</div></div>
+    </div>
+
+    <div class="content-wrapper">
+        <h2>CHOOSE DIFFICULTY</h2>
+        
+        <div class="levels-grid">
+            <button class="lvl-btn" onclick="goToGame('beginner')">Beginner</button>
+            <button class="lvl-btn" onclick="goToGame('professional')">Professional</button>
+            <button class="lvl-btn" onclick="goToGame('top-player')">Top Player</button>
+            <button class="lvl-btn" onclick="goToGame('legend')">Legend</button>
+            <button class="lvl-btn omar-mode" onclick="goToGame('omar-mode')">OMAR MODE</button>
+        </div>
+
+        <a href="Bbb.html" class="back-link">← BACK TO MENU</a>
+    </div>
+
+    <script>
+        function goToGame(diff) {
+            window.location.href = `AiGame.html?mode=ai&diff=${diff}`;
+        }
+    </script>
+</body>
+</html>
